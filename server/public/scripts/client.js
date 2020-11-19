@@ -2,7 +2,27 @@ $(document).ready(function(){
   console.log('jQuery sourced.');
   refreshBooks();
   addClickHandlers();
+  $('#bookShelf').on('click', '.deleteButton', deleteBook)
 });
+//delete a book from the database
+function deleteBook() {
+  console.log('ENTER deleteBook');
+  console.log($(this));
+  //need id of song i wish to delete
+let idToDelete = $(this).closest('tr').data('id')
+  console.log('idToDelete', idToDelete);
+
+  $.ajax({
+        method: 'DELETE',
+        url: '/books' //add id to the url
+    }).then( function(response) {
+      console.log(response);
+        //refreshBooks();
+    }).catch( function(error){
+        console.log('Error:', error);
+        alert('Something bad happened. Try again later');
+    })
+}
 
 function addClickHandlers() {
   $('#submitBtn').on('click', handleSubmit);
@@ -25,7 +45,7 @@ function addBook(bookToAdd) {
     url: '/books',
     data: bookToAdd,
     }).then(function(response) {
-      console.log('Response from server.', response);
+      console.log('Response from server ln48.', response);
       refreshBooks();
     }).catch(function(error) {
       console.log('Error in POST', error)
@@ -54,10 +74,13 @@ function renderBooks(books) {
   for(let i = 0; i < books.length; i += 1) {
     let book = books[i];
     // For each book, append a new row to our table
-    let $tr = $('<tr></tr>');
+let $tr = $(`<tr data-id="${book.id}"></tr>`);
     $tr.data('book', book);
     $tr.append(`<td>${book.title}</td>`);
     $tr.append(`<td>${book.author}</td>`);
+    $tr.append(`<button class="deleteButton">Delete</button>`
+);
+    
     $('#bookShelf').append($tr);
   }
 }
