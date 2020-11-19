@@ -2,8 +2,33 @@ $(document).ready(function(){
   console.log('jQuery sourced.');
   refreshBooks();
   addClickHandlers();
-  $('#bookShelf').on('click', '.deleteButton', deleteBook)
+  $('#bookShelf').on('click', '.deleteButton', deleteBook);
+  $('#bookShelf').on('click', '.markReadButton', markRead);
+
 });
+
+function markRead() {
+  console.log('enter markRead');
+  let idToUpdate = $(this).closest('tr').data('id');
+console.log('idToUpdate', idToUpdate);
+  let readObject = {
+    read : 'yes'
+  }
+  
+  $.ajax({
+    method: 'PUT', //update
+    url: `/books/${idToUpdate}`,//req.params
+    data: readObject //req.body
+  }).then(function(response){
+    console.log(response);
+    refreshBooks();
+  }).catch(function(){
+    
+  })
+  
+  
+}
+
 //delete a book from the database
 function deleteBook() {
   console.log('ENTER deleteBook');
@@ -79,9 +104,11 @@ let $tr = $(`<tr data-id="${book.id}"></tr>`);
     $tr.data('book', book);
     $tr.append(`<td>${book.title}</td>`);
     $tr.append(`<td>${book.author}</td>`);
-    $tr.append(`<button class="deleteButton">Delete</button>`
-);
-    
+    $tr.append(`<td>${book.status}</td>`);
+
+    $tr.append(`<button class="deleteButton">Delete</button>`);
+    $tr.append(`<button class="markReadButton">Mark Read</button>`);
+
     $('#bookShelf').append($tr);
   }
 }
