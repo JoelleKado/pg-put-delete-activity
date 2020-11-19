@@ -17,7 +17,7 @@ let idToDelete = $(this).closest('tr').data('id')
         url: `/books/${idToDelete}` //add id to the url
     }).then( function(response) {
       console.log(response);
-        //refreshBooks();
+        refreshBooks();
     }).catch( function(error){
         console.log('Error:', error);
         alert('Something bad happened. Try again later');
@@ -69,6 +69,7 @@ function refreshBooks() {
 
 // Displays an array of books to the DOM
 function renderBooks(books) {
+  console.log('ENTER renderBooks');
   $('#bookShelf').empty();
 
   for(let i = 0; i < books.length; i += 1) {

@@ -54,13 +54,25 @@ router.put('/:id',  (req, res) => {
 // Request must include a parameter indicating what book to update - the id
 router.delete('/:id',  (req, res) => {
   let id = req.params.id; // id of the thing to delete
-
+console.log('id to delete', id);
 res.send('ok');
 //  console.log('in delete');
-let queryText = `DELETE FROM books WHERE id=2;`
+let queryText = `DELETE FROM books WHERE id=$1;`//what is the 1 here
   //console.log('Delete route called with id of', id);
   // TODO - REPLACE BELOW WITH YOUR CODE
   //res.sendStatus(500);
+  pool.query(queryText, [id])
+    .then(result => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.log(`Error adding new book`, error);
+      res.sendStatus(500);
+    });
+
+
+
+
 
 });
 
