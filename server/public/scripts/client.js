@@ -14,7 +14,7 @@ let idToDelete = $(this).closest('tr').data('id')
 
   $.ajax({
         method: 'DELETE',
-        url: '/books' //add id to the url
+        url: `/books/${idToDelete}` //add id to the url
     }).then( function(response) {
       console.log(response);
         //refreshBooks();

@@ -52,13 +52,13 @@ router.put('/:id',  (req, res) => {
 // TODO - DELETE 
 // Removes a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
-router.delete('/',  (req, res) => {
-  //let id = req.params.id; // id of the thing to delete
+router.delete('/:id',  (req, res) => {
+  let id = req.params.id; // id of the thing to delete
 
 res.send('ok');
 //  console.log('in delete');
+let queryText = `DELETE FROM books WHERE id=2;`
   //console.log('Delete route called with id of', id);
-
   // TODO - REPLACE BELOW WITH YOUR CODE
   //res.sendStatus(500);
 
